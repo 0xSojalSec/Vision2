@@ -1,6 +1,9 @@
 import requests
 from lxml import html
 import xml.etree.ElementTree as treant
+import warnings
+
+warnings.simplefilter("ignore")
 
 def banner():
     print open('banner.txt','r').read()
