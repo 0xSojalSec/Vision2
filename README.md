@@ -62,11 +62,15 @@ Nop, this script is util to audit banners of services, this tool don't test inpu
 
 
 
-Authors: mthbernades and CoolerVoid 
+## Authors: 
+
+# mthbernades and CoolerVoid 
+
 https://github.com/mthbernardes
+
 https://github.com/CoolerVoid
 
 
-Ter Set  5 02:00:09 2017
+Date: Ter Set  5 02:00:09 2017
 
 
