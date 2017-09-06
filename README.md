@@ -20,7 +20,7 @@ vision2.py: error: argument -f/--nmap-file is required
 
 ## Example of results:
 ```
-$ python Vision-cpe.py result_nmap.xml 3 txt
+$ python Vision-cpe.py -f result_scan.xml -l 3 -o txt
 
 ::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
 Host: 127.0.0.1
