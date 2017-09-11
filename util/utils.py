@@ -44,7 +44,7 @@ def parser(filenmap,limit):
                 for z in y.findall('service/cpe'):
                     if len(z.text) > 4:
                         cpe = fix_cpe_str(z.text)
-                        print "\n::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid\n"
+                        print "\n::::: Vision v0.1 - nmap NVD's cpe correlation \n"
                         print "Host: %s" % host
                         print "Port: %s" % current_port
                         print "cpe: %s" % cpe
