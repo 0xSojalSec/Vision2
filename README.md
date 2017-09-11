@@ -22,7 +22,7 @@ vision2.py: error: argument -f/--nmap-file is required
 ```
 $ python Vision-cpe.py -f result_scan.xml -l 3 -o txt
 
-::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
+::::: Vision v0.1 - nmap NVD's cpe correlation - 
 Host: 127.0.0.1
 Port: 53
 cpe:/a:isc:bind:9.8.1:p1
@@ -35,7 +35,7 @@ cpe:/a:isc:bind:9.8.1:p1
 
 	URL: https://nvd.nist.gov/vuln/detail/CVE-2016-2848
 	Description: ISC BIND 9.1.0 through 9.8.4-P2 and 9.9.0 through 9.9.2-P2 allows remote attackers to cause a denial of service (assertion failure and daemon exit) via malformed options data in an OPT resource record.
-::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
+::::: Vision v0.1 - nmap NVD's cpe correlation - 
 
 Host: 127.0.0.1
 Port: 22
@@ -51,14 +51,14 @@ cpe:/o:linux:linux_kernel
 	Description: The tcp_disconnect function in net/ipv4/tcp.c in the Linux kernel before 4.12 allows local users to cause a denial of service (__tcp_select_window divide-by-zero error and system crash) by triggering a disconnect within a certain tcp_recvmsg code path.
 
 
-::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
+::::: Vision v0.1 - nmap NVD's cpe correlation - 
 
 Host: 127.0.0.1
 Port: 53
 cpe:/a:isc:bind:none
 
 
-::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
+::::: Vision v0.1 - nmap NVD's cpe correlation - 
 
 Host: 127.0.0.1
 Port: 80
@@ -71,8 +71,7 @@ cpe:/a:igor_sysoev:nginx:1.4.1
 	Description: nginx 0.8.41 through 1.4.3 and 1.5.x before 1.5.7 allows remote attackers to bypass intended restrictions via an unescaped space character in a URI.
 
 
-::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
-
+::::: Vision v0.1 - nmap NVD's cpe correlation - 
 Host: 127.0.0.1
 Port: 465
 cpe:/a:postfix:postfix
@@ -87,7 +86,7 @@ cpe:/a:postfix:postfix
 	Description: The STARTTLS implementation in Postfix 2.4.x before 2.4.16, 2.5.x before 2.5.12, 2.6.x before 2.6.9, and 2.7.x before 2.7.3 does not properly restrict I/O buffering, which allows man-in-the-middle attackers to insert commands into encrypted SMTP sessions by sending a cleartext command that is processed after TLS is in place, related to a "plaintext command injection" attack.
 
 
-::::: Vision v0.1 - nmap NVD's cpe correlation - Coded by CoolerVoid
+::::: Vision v0.1 - nmap NVD's cpe correlation - 
 
 Host: 127.0.0.1
 Port: 8443
