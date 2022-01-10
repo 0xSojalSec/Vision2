@@ -12,7 +12,7 @@ def arguments():
         if os.path.isfile(args.nmapfile):
             return os.path.abspath(args.nmapfile),args.limit,args.output
         else:
-            print 'File does not exist!'
+            print ('File does not exist!')
             exit(1)
     else:
         parser.print_help()
