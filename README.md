@@ -24,7 +24,7 @@ $ sudo python3 -m pip install -r requirements.txt
 ## Example of results:
 ```
 $ sudo nmap -sS -sV -O -P0 02:42:0A:00:00:03 -oX result.xml
-$ python3 Vision-cpe.py -f result_scan.xml -l 3 -o txt
+$ python3 Vision-cpe.py -f result.xml -l 3 -o txt
 ..::: VISION v0.3 :::...
 Nmap\'s XML result parser and NVD's CPE correlation to search CVE
 
