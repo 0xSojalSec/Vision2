@@ -11,7 +11,7 @@ def prepare_cpe(cpe):
    word=cpe.split(':')
    name=word[2]
    types=word[3]
-   if len(word) >= 4:
+   if len(word) >= 5:
     version=word[4]
     ret=name+" "+types+" "+version
     return ret
