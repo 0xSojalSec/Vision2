@@ -124,7 +124,7 @@ https://cve.mitre.org/
 
 ## This is a true vulnerability scanner ?
 
-Nop, this script is util to audit banners of services, this tool don't test inputs... Vulnerability scanner its complex, look that following http://www.openvas.org/
+Nop, this script is util to audit banners of services, this tool don't test inputs... Full Vulnerability scanner its complex, look that following http://www.openvas.org/
 
 
 
@@ -137,7 +137,7 @@ https://github.com/mthbernardes
 
 https://github.com/CoolerVoid
 
-Old version using SAX style parse:
+Another version using custom SAX style parse to gain more performance:
 https://github.com/CoolerVoid/Vision
 
 Date: Ter Set  5 02:00:09 2017
