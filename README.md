@@ -16,6 +16,9 @@ Coded by Mthbernades and CoolerVoid
 usage: vision2.py [-h] -f NMAPFILE [-l LIMIT] [-o OUTPUT]
 vision2.py: error: argument -f/--nmap-file is required
 
+To install modules:
+$ sudo python3 -m pip install -r requirements.txt
+
 ```
 
 ## Example of results:
