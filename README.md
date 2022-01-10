@@ -1,6 +1,6 @@
 # Vision
 
-Nmap's XML result parse and NVD's CPE correlation to search CVE. You can use that to find public vulnerabilities in services... 
+This script analyses the Nmap XML scanning results, parses each CPE context and correlates to search CVE on NIST. You can use that to find public vulnerabilities in services.
 
 ```..::: VISION v0.3 :::...
 Nmap\'s XML result parser and NVD's CPE correlation to search CVE
