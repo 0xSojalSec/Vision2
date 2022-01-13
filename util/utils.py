@@ -50,7 +50,7 @@ def parserResponse(content,limit):
             print ("\t\t" + colored(desc[i].text,"magenta") )
             url =("https://nvd.nist.gov/vuln/detail/"+cve[i].text)
             print ("\t\t" + colored(url,"green") )
-            print ("\t\t" + risk_color(score[i].text) )
+            print ("\t\t" + risk_color(score[i].text +"\n") )
     print
 
 def getCPE(cpe):
@@ -79,11 +79,9 @@ def parser(filenmap,limit):
                 for z in y.findall('service/cpe'):
                     if len(z.text) > 4:
                         cpe = fix_cpe_str(z.text)
-                        print (colored("Host: " + host,"cyan"))
-                        print (colored("Port: " + current_port,"cyan"))
-                        print (colored("cpe: " + cpe,"cyan"))
                         result = getCPE(cpe)
                         if result:
+                            print (colored("Host: " + host,"cyan"))
+                            print (colored("Port: " + current_port,"cyan"))
+                            print (colored("cpe: " + cpe,"cyan"))
                             parserResponse(result,limit)
-                        else:
-                            print ('Problem in NVD NIST server, not found.')
