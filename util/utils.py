@@ -48,7 +48,8 @@ def parserResponse(content,limit):
             maxLimit = len(desc)
         for i in range(0,maxLimit):
             print ("\t\t" + colored(desc[i].text,"magenta") )
-            print ("\t\t" + colored(cve[i].text,"green") )
+            url =("https://nvd.nist.gov/vuln/detail/"+cve[i].text)
+            print ("\t\t" + colored(url,"green") )
             print ("\t\t" + risk_color(score[i].text) )
     print
 
