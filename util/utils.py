@@ -37,7 +37,24 @@ def risk_color(risk):
 def banner():
     print (open('banner.txt','r').read())
 
-def parserResponse(content,limit):
+
+
+def parser_response_csv(content,limit,csv_str):
+    tree = html.fromstring(content)
+    desc = tree.xpath("//*[contains(@data-testid, 'vuln-summary')]")
+    cve = tree.xpath("//*[contains(@data-testid, 'vuln-detail-link')]")
+    score = tree.xpath("//*[contains(@data-testid, 'vuln-cvss2-link')]")
+    if len(desc) > 0:
+        maxLimit = limit  if limit <= len(desc) else len(desc) - 1
+        if limit > len(desc):
+            maxLimit = len(desc)
+        for i in range(0,maxLimit):
+            url =("https://nvd.nist.gov/vuln/detail/"+cve[i].text)
+            print(csv_str+str(cve[i].text)+"|"+url+"|"+str(score[i].text)+"|"+str(desc[i].text) )
+    
+
+
+def parser_response(content,limit):
     tree = html.fromstring(content)
     desc = tree.xpath("//*[contains(@data-testid, 'vuln-summary')]")
     cve = tree.xpath("//*[contains(@data-testid, 'vuln-detail-link')]")
@@ -67,7 +84,7 @@ def getCPE(cpe):
 def fix_cpe_str(str):
     return str.replace('-',':')
 
-def parser(filenmap,limit):
+def parser(filenmap,limit,type_output):
     print (colored("\n::::: Vision v0.3 - nmap NVD's cpe correlation to CVE \n","yellow"))
     tree = treant.parse(filenmap)
     root = tree.getroot()
@@ -81,7 +98,12 @@ def parser(filenmap,limit):
                         cpe = fix_cpe_str(z.text)
                         result = getCPE(cpe)
                         if result:
-                            print (colored("Host: " + host,"cyan"))
-                            print (colored("Port: " + current_port,"cyan"))
-                            print (colored("cpe: " + cpe,"cyan"))
-                            parserResponse(result,limit)
+                            if("csv" in type_output):
+                                string_csv=str(host)+"|"+str(current_port)+"|"+str(cpe)+"|"
+                                parser_response_csv(result,limit,string_csv)
+                            else:
+                                print (colored("Host: " + host,"cyan"))
+                                print (colored("Port: " + current_port,"cyan"))
+                                print (colored("cpe: " + cpe,"cyan"))
+                                parser_response(result,limit)
+

@@ -1,8 +1,10 @@
-..::: VISION v0.1 :::...
+..::: VISION v0.4 :::...
 Nmap\'s XML result parser and NVD's CPE correlation to search CVE
 
 Example:
-python vision.py -f result_scan.xml -l 3 -o txt
+python3 vision.py -f result_scan.xml -l 3 -t txt
+or
+python3 vision.py -f result_scan.xml -l 3 -t csv
 
 Coded by Mthbernades and CoolerVoid
 
