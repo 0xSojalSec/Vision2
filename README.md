@@ -213,4 +213,6 @@ https://github.com/CoolerVoid/Vision
 
 Date: Ter Set  5 02:00:09 2017
 
+# Point of attention
+The purpose of this tool is to use in pentest, take attention if you have a proper authorization before to use that. I do not have responsibility for your actions. You can use a hammer to construct a house or destroy it, choose the law path, don't be a bad guy, remember.
 
