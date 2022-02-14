@@ -3,6 +3,7 @@ from lxml import html
 import xml.etree.ElementTree as treant
 from termcolor import colored
 import warnings
+import json
 
 warnings.simplefilter("ignore")
 
@@ -39,44 +40,50 @@ def banner():
 
 
 
-def parser_response_csv(content,limit,csv_str):
-    tree = html.fromstring(content)
-    desc = tree.xpath("//*[contains(@data-testid, 'vuln-summary')]")
-    cve = tree.xpath("//*[contains(@data-testid, 'vuln-detail-link')]")
-    score = tree.xpath("//*[contains(@data-testid, 'vuln-cvss2-link')]")
-    if len(desc) > 0:
-        maxLimit = limit  if limit <= len(desc) else len(desc) - 1
-        if limit > len(desc):
-            maxLimit = len(desc)
-        for i in range(0,maxLimit):
-            url =("https://nvd.nist.gov/vuln/detail/"+cve[i].text)
-            print(csv_str+str(cve[i].text)+"|"+url+"|"+str(score[i].text)+"|"+str(desc[i].text) )
+def parser_response_csv(content,csv_str):
+
+    data = json.loads(content)
+
+    for vuln in data['result']['CVE_Items']:
+        cve=vuln['cve']['CVE_data_meta']['ID']
+        url="https://nvd.nist.gov/vuln/detail/"+cve
+        date=vuln['publishedDate']
+        description=vuln['cve']['description']['description_data'][0]['value']
+        try:
+            cvss2=vuln['impact']['baseMetricV2']['severity']
+            cvss3=vuln['impact']['baseMetricV3']['cvssV3']['baseSeverity']
+        except:
+            cvss2="NULL"
+            cvss3="NULL"
+            print("Risk is not defined")
+        # use pipes '|' because field description have ',' this can crash parsers
+        row=csv_str+cve+"|"+url+"|"+date+"|"+cvss2+"|"+cvss3+"|"+description
+        with open('vision_log.csv', 'a+') as f:
+            f.write(row+"\n")
+        print(row)
+
+
+def parser_response(content):
+    data = json.loads(content)
+    for vuln in data['result']['CVE_Items']:
+        url="https://nvd.nist.gov/vuln/detail/"+str(vuln['cve']['CVE_data_meta']['ID'])
+        print("\n\tURL: "+colored(url,"cyan"))
+        print("\tDate: "+vuln['publishedDate'])
+        print("\tDescription:"+colored(vuln['cve']['description']['description_data'][0]['value'],"yellow"))
+        try:
+            print("\tCVSS V2 Risk: "+risk_color(vuln['impact']['baseMetricV2']['severity']))
+            print("\tCVSS V3 Risk: "+risk_color(vuln['impact']['baseMetricV3']['cvssV3']['baseSeverity']))
+        except:
+            print("\tRisk is not defined")
     
 
-
-def parser_response(content,limit):
-    tree = html.fromstring(content)
-    desc = tree.xpath("//*[contains(@data-testid, 'vuln-summary')]")
-    cve = tree.xpath("//*[contains(@data-testid, 'vuln-detail-link')]")
-    score = tree.xpath("//*[contains(@data-testid, 'vuln-cvss2-link')]")
-    if len(desc) > 0:
-        maxLimit = limit  if limit <= len(desc) else len(desc) - 1
-        if limit > len(desc):
-            maxLimit = len(desc)
-        for i in range(0,maxLimit):
-            print ("\t\t" + colored(desc[i].text,"magenta") )
-            url =("https://nvd.nist.gov/vuln/detail/"+cve[i].text)
-            print ("\t\t" + colored(url,"green") )
-            print ("\t\t" + risk_color(score[i].text +"\n") )
-    print
-
-def getCPE(cpe):
+def getCPE(cpe,limit):
     cpe = prepare_cpe(cpe)
     if cpe != 0:
-        url = "https://nvd.nist.gov/vuln/search/results?form_type=Basic&results_type=overview&query="+cpe+"&search_type=all&isCpeNameSearch=false"
+        url = "https://services.nvd.nist.gov/rest/json/cves/1.0?keyword="+cpe+"&resultsPerPage="+str(limit)
         r = requests.get(url)
         if r.status_code == 200:
-            return r.content
+            return r.text
         else:
             return False
     return False
@@ -85,7 +92,7 @@ def fix_cpe_str(str):
     return str.replace('-',':')
 
 def parser(filenmap,limit,type_output):
-    print (colored("\n::::: Vision v0.3 - nmap NVD's cpe correlation to CVE \n","yellow"))
+    print (colored("\n::::: Vision v0.5 - nmap NVD's cpe correlation to CVE \n","yellow"))
     tree = treant.parse(filenmap)
     root = tree.getroot()
     for child in root.findall('host'):
@@ -96,14 +103,16 @@ def parser(filenmap,limit,type_output):
                 for z in y.findall('service/cpe'):
                     if len(z.text) > 4:
                         cpe = fix_cpe_str(z.text)
-                        result = getCPE(cpe)
+                        result = getCPE(cpe,limit)
                         if result:
                             if("csv" in type_output):
                                 string_csv=str(host)+"|"+str(current_port)+"|"+str(cpe)+"|"
-                                parser_response_csv(result,limit,string_csv)
+                                parser_response_csv(result,string_csv)
                             else:
                                 print (colored("Host: " + host,"cyan"))
                                 print (colored("Port: " + current_port,"cyan"))
                                 print (colored("cpe: " + cpe,"cyan"))
-                                parser_response(result,limit)
+                                parser_response(result)
+    if "csv" in type_output:
+        print("\n\tLook the result file in vision_log.csv")
 
