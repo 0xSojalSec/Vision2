@@ -51,11 +51,12 @@ def parser_response_csv(content,csv_str):
         description=vuln['cve']['description']['description_data'][0]['value']
         try:
             cvss2=vuln['impact']['baseMetricV2']['severity']
-            cvss3=vuln['impact']['baseMetricV3']['cvssV3']['baseSeverity']
         except:
             cvss2="NULL"
+        try:
+            cvss3=vuln['impact']['baseMetricV3']['cvssV3']['baseSeverity']
+        except:
             cvss3="NULL"
-            print("Risk is not defined")
         # use pipes '|' because field description have ',' this can crash parsers
         row=csv_str+cve+"|"+url+"|"+date+"|"+cvss2+"|"+cvss3+"|"+description
         with open('vision_log.csv', 'a+') as f:
