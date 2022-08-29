@@ -93,12 +93,14 @@ def fix_cpe_str(str):
     return str.replace('-',':')
 
 def parser(filenmap,limit,type_output):
-    print (colored("\n::::: Vision v0.5 - nmap NVD's cpe correlation to CVE \n","yellow"))
+    print (colored("\n::::: Vision v0.6 - nmap NVD's cpe correlation to CVE \ncoded by github.com/CoolerVoid\n","yellow"))
     tree = treant.parse(filenmap)
     root = tree.getroot()
     for child in root.findall('host'):
         for k in child.findall('address'):
             host = k.attrib['addr']
+            print(host)
+
             for y in child.findall('ports/port'):
                 current_port = y.attrib['portid']
                 for z in y.findall('service/cpe'):
@@ -112,6 +114,20 @@ def parser(filenmap,limit,type_output):
                             else:
                                 print (colored("Host: " + host,"cyan"))
                                 print (colored("Port: " + current_port,"cyan"))
+                                print (colored("cpe: " + cpe,"cyan"))
+                                parser_response(result)
+
+            for y in child.findall('os'):
+                for z in y.findall('osmatch/osclass/cpe'):
+                    if len(z.text) > 4:
+                        cpe = fix_cpe_str(z.text)
+                        result = getCPE(cpe,limit)
+                        if result:
+                            if("csv" in type_output):
+                                string_csv=str(host)+"|"+str(cpe)+"|"
+                                parser_response_csv(result,string_csv)
+                            else:
+                                print (colored("Host: " + host,"cyan"))
                                 print (colored("cpe: " + cpe,"cyan"))
                                 parser_response(result)
     if "csv" in type_output:
